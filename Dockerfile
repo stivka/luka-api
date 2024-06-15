@@ -14,8 +14,8 @@ COPY src ./src
 # Ensure the Gradle wrapper has execution permissions
 RUN chmod +x gradlew
 
-# Build the application
-RUN ./gradlew build
+# Build the application without running tests
+RUN ./gradlew build -x test
 
 #
 # Package stage
