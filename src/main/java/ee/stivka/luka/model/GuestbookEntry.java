@@ -2,10 +2,13 @@ package ee.stivka.luka.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "guestbook_entries")
-@Data
 public class GuestbookEntry {
 
     @Id
@@ -14,5 +17,10 @@ public class GuestbookEntry {
 
     private String name;
     private String message;
+
+    public GuestbookEntry(String name, String message) {
+        this.name = name;
+        this.message = message;
+    }
 
 }
