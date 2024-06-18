@@ -27,6 +27,6 @@ WORKDIR /app
 
 # Copy the built JAR file from the build stage
 COPY --from=build /home/app/build/libs/*.jar /app/app.jar
-
+EXPOSE $PORT
 # Specify the entry point to run the application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

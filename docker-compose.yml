@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: luka_api_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: luka_api
+    ports:
+      - "5432:5432"
+    volumes:
+      - luka_api_db_data:/var/lib/postgresql/data
+
+#  app:
+#    build: .
+#    container_name: my_app
+#    environment:
+#      DATABASE_URL: jdbc:postgresql://db:5432/luka_api
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+
+volumes:
+  luka_api_db_data:
