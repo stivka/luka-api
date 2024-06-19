@@ -14,7 +14,6 @@ public class DatabaseSeeder {
 
     @PostConstruct
     public void init() {
-        guestbookRepository.save(new GuestbookEntry("Alice", "Hello there"));
-        guestbookRepository.save(new GuestbookEntry("Bob", "Hi, I'm Bob and I love Spring Boot!"));
+        guestbookRepository.save(new GuestbookEntry("Charlie", "It's Charlie baby"));
     }
 }

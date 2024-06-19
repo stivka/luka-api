@@ -3,6 +3,9 @@ package ee.stivka.luka.controller;
 import ee.stivka.luka.model.GuestbookEntry;
 import ee.stivka.luka.repository.GuestbookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +23,10 @@ public class GuestbookController {
     }
 
     @GetMapping
-    public List<GuestbookEntry> getAllEntries() {
-        return guestbookRepository.findAll();
+    public Page<GuestbookEntry> getAllEntries(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return guestbookRepository.findAll(pageable);
     }
 }
