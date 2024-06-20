@@ -2,23 +2,24 @@ package ee.stivka.luka.controller;
 
 import ee.stivka.luka.model.GuestbookEntry;
 import ee.stivka.luka.repository.GuestbookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/guestbook")
 public class GuestbookController {
 
-    @Autowired
-    private GuestbookRepository guestbookRepository;
+    private final GuestbookRepository guestbookRepository;
 
-    @PostMapping
-    public GuestbookEntry addEntry(@RequestBody GuestbookEntry entry) {
+    @PostMapping()
+    public GuestbookEntry createEntry(@RequestBody GuestbookEntry entry) {
+        entry.setDate(LocalDateTime.now());
         return guestbookRepository.save(entry);
     }
 
