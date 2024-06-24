@@ -15,10 +15,11 @@ public class GuestbookEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(length = 50)
     private String name;
+    @Column(length = 500)
     private String message;
-    private LocalDateTime date; // Add this line
+    private LocalDateTime date;
 
     public GuestbookEntry(String name, String message, LocalDateTime date) {
         this.name = name;
