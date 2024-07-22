@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class VisitorCountController {
     private final VisitorCountService service;
 
-    @PostMapping("/increment")
-    public Long incrementCount() {
-        return service.incrementVisitorCount();
-    }
-
     @GetMapping
-    public Long getCount() {
+    public Long getIncrementedCount() {
+        service.incrementVisitorCount();
         return service.getVisitorCount();
     }
 }
