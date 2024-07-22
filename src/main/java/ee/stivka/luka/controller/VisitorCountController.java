@@ -15,7 +15,6 @@ public class VisitorCountController {
 
     @GetMapping
     public Long getIncrementedCount() {
-        service.incrementVisitorCount();
-        return service.getVisitorCount();
+        return service.incrementVisitorCount();
     }
 }
