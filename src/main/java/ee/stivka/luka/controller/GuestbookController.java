@@ -18,7 +18,6 @@ public class GuestbookController {
 
     @PostMapping()
     public GuestbookEntry createEntry(@RequestBody GuestbookEntry entry) {
-        entry.setDate(entry.getDate());
         return guestbookRepository.save(entry);
     }
 

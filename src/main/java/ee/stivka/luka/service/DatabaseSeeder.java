@@ -17,6 +17,6 @@ public class DatabaseSeeder {
 
     @PostConstruct
     public void init() {
-        guestbookRepository.save(new GuestbookEntry("Charlie", "It's Charlie baby", LocalDateTime.now()));
+        guestbookRepository.save(new GuestbookEntry("Charlie", "It's Charlie baby"));
     }
 }

@@ -13,5 +13,4 @@ public class VisitorCount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long count;
-
 }
