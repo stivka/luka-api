@@ -11,5 +11,4 @@ public class LukaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LukaApplication.class, args);
 	}
-
 }
