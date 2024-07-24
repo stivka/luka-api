@@ -20,31 +20,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "guestbook_entries")
-public class GuestbookEntry {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 50)
-    private String name;
-
-    @Column(length = 500)
-    private String message;
-
-    private LocalDateTime date;
+    private String username;
 
     @CreatedDate
-    @Column(nullable = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    public GuestbookEntry(String name, String message) {
-        this.name = name;
-        this.message = message;
+    @Column(nullable = true)
+    private LocalDateTime lastLoggedInAt = LocalDateTime.now();
+
+    public User(String username) {
+        this.username = username;
+        this.lastLoggedInAt = LocalDateTime.now();
+    }
+
+    public void updateLoginDate() {
+        this.lastLoggedInAt = LocalDateTime.now();
     }
 }
