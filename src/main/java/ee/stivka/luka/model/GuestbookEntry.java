@@ -47,12 +47,4 @@ public class GuestbookEntry {
         this.name = name;
         this.message = message;
     }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

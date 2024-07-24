@@ -46,10 +46,6 @@ public class User {
         this.lastLoggedInAt = LocalDateTime.now();
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void updateLoginDate() {
         this.lastLoggedInAt = LocalDateTime.now();
     }
