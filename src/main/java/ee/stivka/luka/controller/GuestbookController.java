@@ -55,7 +55,7 @@ public class GuestbookController {
     public Page<GuestbookEntry> getAllEntries(
         @RequestParam(name = "page", defaultValue = "0") int page,
         @RequestParam(name = "size", defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "date");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         return guestbookRepository.findAll(pageable);
     }
 

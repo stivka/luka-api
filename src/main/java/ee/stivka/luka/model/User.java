@@ -2,7 +2,9 @@ package ee.stivka.luka.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -38,15 +40,7 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(nullable = true)
-    private LocalDateTime lastLoggedInAt = LocalDateTime.now();
-
     public User(String username) {
         this.username = username;
-        this.lastLoggedInAt = LocalDateTime.now();
-    }
-
-    public void updateLoginDate() {
-        this.lastLoggedInAt = LocalDateTime.now();
     }
 }
