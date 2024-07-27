@@ -33,14 +33,12 @@ public class GuestbookEntry {
     @Column(length = 500)
     private String message;
 
-    private LocalDateTime date;
-
     @CreatedDate
-    @Column(nullable = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     public GuestbookEntry(String name, String message) {
