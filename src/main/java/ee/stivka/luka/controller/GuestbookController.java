@@ -48,6 +48,11 @@ public class GuestbookController {
             discordService.sendSweareWordAlert(entry.getMessage());
         }
 
+        // Ensure the createdAt field is provided by the frontend only
+        if (entry.getSubmittedAt() == null) {
+            throw new IllegalArgumentException("Creation time is required");
+        }
+
         return guestbookRepository.save(entry);
     }
 
