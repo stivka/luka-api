@@ -25,6 +25,11 @@ FROM openjdk:22-jdk-slim
 # Set the working directory in the container
 WORKDIR /app
 
+# Set the timezone to UTC
+ENV TZ=UTC
+# Install tzdata package
+RUN apt-get update && apt-get install -y tzdata
+
 # Copy the built JAR file from the build stage
 COPY --from=build /home/app/build/libs/*.jar /app/app.jar
 EXPOSE $PORT
