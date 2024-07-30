@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class LukaApplication {
 
-	public static void main(String[] args) {
-		System.out.println("Timezone: " + System.getProperty("user.timezone"));
-		SpringApplication.run(LukaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LukaApplication.class, args);
+    }
 }
