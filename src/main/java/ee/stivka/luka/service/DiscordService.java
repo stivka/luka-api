@@ -27,19 +27,20 @@ public class DiscordService {
 
     public void sendSweareWordAlert(String message) {
         System.out.println("Sweareword detected, sending alert to Discord");
-        String discordMessage = "Someone has used a curseword in the chat: " + message;
-        dispatchMessage(discordMessage).subscribe(
-                response -> System.out.println("Response: " + response),
-                error -> System.err.println("Error: " + error)
-        );
+        // String discordMessage = "Someone has used a curseword in the chat: " + message;
+        // dispatchMessage(discordMessage).subscribe(
+        //         response -> System.out.println("Response: " + response),
+        //         error -> System.err.println("Error: " + error)
+        // );
     }
 
     public void notifyNewUser(String username) {
         System.out.println("New user has joined the platform, sending alert to Discord");
-        String discordMessage = "New user has joined the platform: " + username;
-        dispatchMessage(discordMessage).subscribe(
-                response -> System.out.println("Response: " + response),
-                error -> System.err.println("Error: " + error)
-        );
+        // String discordMessage = "New user has joined the platform: " + username;
+        // dispatchMessage(discordMessage).subscribe(
+        //         response -> System.out.println("Response: " + response),
+        //         error -> System.err.println("Error: " + error)
+
+// );
     }
 }

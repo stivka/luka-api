@@ -1,6 +1,7 @@
 package ee.stivka.luka.model;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -39,11 +40,11 @@ public class GuestbookEntry {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     // Instant represents a point in time without any timezone information, which means it is always in UTC
-    private Instant createdAt;
+    private ZonedDateTime createdAt;
 
     @LastModifiedDate
     @Column(nullable = false)
-    private Instant updatedAt;
+    private ZonedDateTime updatedAt;
 
     public GuestbookEntry(String name, String message, Instant submittedAt) {
         this.name = name;
