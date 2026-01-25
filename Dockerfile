@@ -20,7 +20,7 @@ RUN ./gradlew build -x test
 #
 # Package stage
 #
-FROM eclipse-temurin:21-jdk-jammy
+FROM openjdk:21-jdk-slim
 
 # Set the working directory in the container
 WORKDIR /app
