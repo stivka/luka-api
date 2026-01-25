@@ -20,7 +20,7 @@ RUN ./gradlew build -x test
 #
 # Package stage
 #
-FROM openjdk:22-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Set the working directory in the container
 WORKDIR /app
