@@ -39,6 +39,7 @@ public class SecurityConfig {
   public SecurityFilterChain sseSecurityFilterChain(HttpSecurity http) throws Exception {
     http
       .securityMatcher("/api/stream", "/api/stream/**")
+      .cors(Customizer.withDefaults())
       .csrf(AbstractHttpConfigurer::disable)
       .logout(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
@@ -51,6 +52,7 @@ public class SecurityConfig {
   @Order(2)
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
+      .cors(Customizer.withDefaults())
       .csrf(csrf -> csrf.disable())
       .logout(logout -> logout.disable()) // Disable default logout since we are stateless
       .authorizeHttpRequests(auth -> auth
