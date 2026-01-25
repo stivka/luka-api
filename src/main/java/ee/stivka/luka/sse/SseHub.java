@@ -1,4 +1,4 @@
-package ee.stivka.luka;
+package ee.stivka.luka.sse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -18,6 +18,14 @@ public class SseHub {
         emitter.onTimeout(() -> emitters.remove(emitter));
         emitter.onError(e -> emitters.remove(emitter));
         return emitter;
+    }
+
+    public void sendInitial(SseEmitter emitter, String eventName, Object payload) {
+        try {
+            emitter.send(SseEmitter.event().name(eventName).data(payload));
+        } catch (IOException e) {
+            emitters.remove(emitter);
+        }
     }
 
     public void broadcast(String eventName, Object payload) {
