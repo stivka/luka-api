@@ -48,18 +48,13 @@ public class GuestbookController {
             discordService.sendSweareWordAlert(entry.getMessage());
         }
 
-        // Ensure the createdAt field is provided by the frontend only
-        if (entry.getSubmittedAt() == null) {
-            throw new IllegalArgumentException("Creation time is required");
-        }
-
         return guestbookRepository.save(entry);
     }
 
     @GetMapping
     public Page<GuestbookEntry> getAllEntries(
-        @RequestParam(name = "page", defaultValue = "0") int page,
-        @RequestParam(name = "size", defaultValue = "5") int size) {
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         return guestbookRepository.findAll(pageable);
     }
