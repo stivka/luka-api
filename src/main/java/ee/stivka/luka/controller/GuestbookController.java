@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ee.stivka.luka.model.GuestbookEntry;
 import ee.stivka.luka.repository.GuestbookRepository;
 import ee.stivka.luka.service.DiscordService;
+import ee.stivka.luka.sse.SseHub;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +32,7 @@ public class GuestbookController {
 
     private final GuestbookRepository guestbookRepository;
     private final DiscordService discordService;
+    private final SseHub sseHub;
     private final List<String> swearWords = new ArrayList<>();
 
     @PostConstruct
@@ -53,14 +55,22 @@ public class GuestbookController {
             throw new IllegalArgumentException("Creation time is required");
         }
 
-        return guestbookRepository.save(entry);
+        GuestbookEntry saved = guestbookRepository.save(entry);
+        // Broadcast the new entry so other clients can update in real-time.
+        sseHub.broadcast("guestbookEntry", saved);
+        return saved;
     }
 
     @GetMapping
     public Page<GuestbookEntry> getAllEntries(
         @RequestParam(name = "page", defaultValue = "0") int page,
-        @RequestParam(name = "size", defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+        @RequestParam(name = "size", required = false) Integer size,
+        @RequestParam(name = "limit", required = false) Integer limit) {
+        int resolvedSize = 5;
+        if (limit != null) resolvedSize = limit;
+        else if (size != null) resolvedSize = size;
+
+        Pageable pageable = PageRequest.of(page, resolvedSize, Sort.Direction.DESC, "createdAt");
         return guestbookRepository.findAll(pageable);
     }
 

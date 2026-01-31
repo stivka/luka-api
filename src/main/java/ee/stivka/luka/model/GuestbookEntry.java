@@ -45,9 +45,4 @@ public class GuestbookEntry {
     @Column(nullable = false)
     private Instant updatedAt;
 
-    public GuestbookEntry(String name, String message, Instant submittedAt) {
-        this.name = name;
-        this.message = message;
-        this.submittedAt = submittedAt;
-    }
 }

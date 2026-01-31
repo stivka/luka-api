@@ -38,7 +38,4 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    public User(String username) {
-        this.username = username;
-    }
 }
