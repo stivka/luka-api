@@ -1,18 +1,26 @@
 package ee.stivka.luka.service;
 
+import ee.stivka.luka.model.PresetMessage;
+import ee.stivka.luka.repository.PresetMessageRepository;
 import ee.stivka.luka.sse.SseHub;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class RandomTransmissionService {
   private final SseHub hub;
+  private final PresetMessageRepository messageRepository;
   private final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
   private final String transmitterId = resolveTransmitterId();
 
@@ -20,10 +28,6 @@ public class RandomTransmissionService {
   private final AtomicLong maxMs = new AtomicLong(25 * 60_000);
 
   private final AtomicReference<ScheduledFuture<?>> scheduled = new AtomicReference<>();
-
-  public RandomTransmissionService(SseHub hub) {
-    this.hub = hub;
-  }
 
   @PostConstruct
   public void start() {
@@ -45,16 +49,24 @@ public class RandomTransmissionService {
   private void scheduleNext() {
     long delay = randomBetween(minMs.get(), maxMs.get());
     ScheduledFuture<?> f = exec.schedule(() -> {
-      sendTransmission();
-      scheduleNext(); // schedule again after sending
+      try {
+        sendTransmission();
+      } catch (Exception ex) {
+        // If a single run fails (e.g. transient DB issue), don't stop the loop.
+        log.warn("Random transmission send failed; will retry on next schedule.", ex);
+      } finally {
+        scheduleNext(); // schedule again after sending (or after failure)
+      }
     }, delay, TimeUnit.MILLISECONDS);
     scheduled.set(f);
   }
 
   private void sendTransmission() {
+    String message = pickMessage();
+
     Map<String, Object> payload = Map.of(
       "type", "TRANSMISSION",
-      "message", pickMessage(),
+      "message", message,
       "ts", Instant.now().toString(),
       "tx", transmitterId
     );
@@ -91,13 +103,12 @@ public class RandomTransmissionService {
   }
 
   private String pickMessage() {
-    String[] msgs = {
-      "📡 Transmission received… ‘Don’t trust the monitor.’",
-      "🕯️ A candle flickered somewhere.",
-      "👁️ Blink twice if you saw Luka.",
-      "🎚️ New frequency detected. Try again soon."
-    };
-    return msgs[ThreadLocalRandom.current().nextInt(msgs.length)];
+    List<PresetMessage> dbMessages = messageRepository.findAll();
+    if (!dbMessages.isEmpty()) {
+      return dbMessages.get(ThreadLocalRandom.current().nextInt(dbMessages.size())).getContent();
+    }
+
+    return "No messages available.";
   }
 }
 
